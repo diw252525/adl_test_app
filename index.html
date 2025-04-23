@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    
+
+      
+    </style>
+  </head>
+
+  <body>
+    <!-- CONTAINER FOR CHART -->
+    <div id="chart_div"></div>
+
+    <div class="container-fluid">
+        <div id="my_row_edits" class="row">
+            <div id="my_col_edits" class="col">
+                <label class="my_profile_label_edit" for="">Diwakar's Application</label>
+                <p id="my_1">first row | one col</p>
+            </div>
+        </div>
+
+        <div id="my_row_edits" class="row">
+            <div id="my_col_edits" class="col">
+                <button>Load File</button> 
+                <button>second row | first col</button>
+            </div>
+            <div id="my_col_edits" class="col">
+                <button>Load File</button> 
+                <button>second row | second col</button>
+            </div>
+        </div>
+
+        <div id="my_row_edits" class="row">
+            <div id="my_col_edits" class="col">
+                <p>Diwakar_2.1</p> 
+                <p>third row | first col</p>
+            </div>
+
+            <div id="my_col_edits" class="col">
+                <p>Diwakar_2.1</p> 
+                <p>third row | second col</p>
+            </div>
+
+            <div id="my_col_edits" class="col">
+                <p>Diwakar_3.3.<p> 
+                <p>third row | third col</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <link rel="stylesheet" href="/my.css">
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script>
+      // load current chart package
+      google.charts.load('current', {
+        packages: ['corechart', 'bar'],
+      });
+
+      // set callback function when api loaded
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        // create data object with default value
+        let data = google.visualization.arrayToDataTable([
+          ['Update Interval', 'Resource Available', 'Deployed'],
+          [0, 0, 0],
+        ]);
+
+        // create options object with titles, colors, etc.
+        let options = {
+          title: 'Man Usage',
+          hAxis: {
+            textPosition: 'Man Power',
+          },
+          vAxis: {
+            title: 'Usage',
+          },
+        };
+
+        // draw chart on load
+        let chart = new google.visualization.BarChart(
+          document.getElementById('chart_div')
+        );
+        chart.draw(data, options);
+
+
+        // draw chart on load
+        let chart1 = new google.visualization.LineChart(
+          document.getElementById('my_row_edits')
+        );
+        chart1.draw(data, options);
+
+        
+
+        // max amount of data rows that should be displayed
+        let maxDatas = 50;
+
+        // interval for adding new data every 250ms
+        let index = 0;
+        setInterval(function () {
+          // instead of this random, you can make an ajax call for the current cpu usage or what ever data you want to display
+          let randomCPU = Math.random() * 20;
+          let randomRAM = Math.random() * 50 + 20;
+
+          if (data.getNumberOfRows() > maxDatas) {
+            data.removeRows(0, data.getNumberOfRows() - maxDatas);
+          }
+
+          data.addRow([index, randomCPU, randomRAM]);
+          chart.draw(data, options);
+
+          chart1.draw(data,options);
+          //chart.draw(options,data);
+
+          index++;
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
